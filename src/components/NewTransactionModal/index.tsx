@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import Modal from 'react-modal';
 import closeImg from '../../assets/close.svg';
 import incomingImg from '../../assets/incoming.svg';
 import outgoingImg from '../../assets/outgoing.svg';
-import { Container, TransactionTypeContainer } from './styles';
+import { Container, TransactionTypeContainer, RadioBox } from './styles';
 
 interface NewTransactionModalProps {
   isOpen: boolean;
@@ -10,7 +11,8 @@ interface NewTransactionModalProps {
 }
 
 export function NewTransactionModal ({ isOpen, onRequestClose }: NewTransactionModalProps) {
-  
+  const [transactionType, setTransactionType] = useState('deposit');
+
   return (
     <Modal 
       isOpen={isOpen} 
@@ -38,23 +40,29 @@ export function NewTransactionModal ({ isOpen, onRequestClose }: NewTransactionM
         />
         
         <TransactionTypeContainer>
-          <button
+          <RadioBox
             type="button"
-          >
+            onClick={() => { setTransactionType('deposit')}}
+            isActive={transactionType === 'deposit'}
+            activeColor={'#33cc95'}
+            >
             <img src={incomingImg} alt="Incoming" />
             <span>Incoming</span>
-          </button>
+          </RadioBox>
 
-          <button
+          <RadioBox
             type="button"
+            onClick={() => { setTransactionType('withdrawal')}}
+            isActive={transactionType === 'withdrawal'}
+            activeColor={'#e52e4d'}
           >
             <img src={outgoingImg} alt="Outgoing" />
             <span>Outgoing</span>
-          </button>
+          </RadioBox>
         </TransactionTypeContainer>
 
         <input 
-          placeholder="Category" 
+          placeholder="Type" 
         />
         
         <button type="submit">Record</button>
